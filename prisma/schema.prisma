@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Rom {
+  id         Int       @id @default(autoincrement())
+  ino        Int       @unique   // filesystem inode number
+  name       String?
+  parentPath String
+  fullPath   String    @unique
+  size       Int?      // bytes
+  system     String?   // e.g., "Nintendo DS", "PlayStation", etc.
+  metadata   Metadata? @relation("RomMetadata")
+}
+
+model Metadata {
+  id          Int     @id @default(autoincrement())
+  rom         Rom     @relation("RomMetadata", fields: [romId], references: [id], onDelete: Cascade)
+  romId       Int     @unique
+
+  title       String?
+  description String?   @db.Text
+  year        Int?
+  genres      String[]  // or Json / separate table if many-to-many
+  coverUrl    String?   // main box art / thumbnail
+  screenshotUrls String[] // or Json
+  trailerUrl  String?
+  developer   String?
+  publisher   String?
+  region      String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
