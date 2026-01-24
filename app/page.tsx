@@ -1,10 +1,15 @@
 "use client";
 import { AppBar, Box, Button, LinearProgress } from "@mui/material";
 import { useState } from "react";
-import { ROMEntry } from "./api/roms/helpers/getAllROMS";
+import { find, pick, values } from "lodash";
+import { ROMEntry } from "./api/roms/get-local-roms/helpers/getAllROMS";
 import { useGetRomsQuery } from "@/lib/services/roms";
 import { ROMTreeView } from "@/components/ROMTreeView";
 import { ROMGridView } from "@/components/ROMGridView";
+import ScrapeModal from "@/components/ScrapeModal";
+import { Media } from "./api/roms/types";
+import NextImage from "next/image";
+import { ROMView } from "@/components/ROMView";
 
 export default function Home() {
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
@@ -13,12 +18,14 @@ export default function Home() {
   );
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
+  const [open, setOpen] = useState(false);
+
   const { data: romData, error, isLoading } = useGetRomsQuery("");
   console.log(romData, error, isLoading);
 
-  const onSelectFile = (fileId: string) => {
+  const onSelectFile = (fileId: string, systemId: string) => {
     setSelectedFile(fileId);
-    setLastSelectedSystem(selectedSystem);
+    setLastSelectedSystem(systemId);
     setSelectedSystem(null);
   };
 
@@ -36,37 +43,50 @@ export default function Home() {
     if (isSelected && itemId.endsWith("-system")) {
       onSelectSystem(itemId.split("-")[0]);
     } else if (isSelected && itemId.endsWith("-file")) {
-      onSelectFile(itemId.split("-")[0]);
+      const resultArray = values(romData?.result || {}).flat();
+      const file: ROMEntry = find(
+        resultArray,
+        (file) => file.ino.toString() === itemId.split("-")[0],
+      );
+      onSelectFile(file.ino.toString(), file.system);
     }
   };
 
-  console.log(selectedSystem, selectedFile);
   if (!isLoading && error) {
     return <div>Error loading ROM data</div>;
   }
 
   return (
     <Box>
+      <ScrapeModal open={open} onClose={() => setOpen(false)} />
       <AppBar
         position="relative"
-        style={{
-          height: "48px",
+        sx={{
           display: "flex",
           alignItems: "center",
-          paddingLeft: "16px",
+          justifyContent: "space-between",
+          width: "100%",
+          px: 2,
         }}
       >
         <h1
           style={{
+            flex: 1,
             flexGrow: 1,
             fontWeight: "bold",
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
           }}
         >
           My ROM Collection
         </h1>
+        <Button
+          style={{
+            flexGrow: 1,
+            fontWeight: "bold",
+          }}
+          onClick={() => setOpen(true)}
+        >
+          Scrap games
+        </Button>
       </AppBar>
       {isLoading ? (
         <LinearProgress />
@@ -85,40 +105,12 @@ export default function Home() {
               />
             )}
             {selectedFile && (
-              <div>
-                <Button
-                  onClick={() => {
-                    setSelectedFile(null);
-                    if (lastSelectedSystem) {
-                      setSelectedSystem(lastSelectedSystem);
-                    }
-                  }}
-                >
-                  Back
-                </Button>
-                Details for file ino: {selectedFile}
-                {romData.result &&
-                  Object.values(romData.result as Record<string, ROMEntry[]>)
-                    .flat()
-                    .map((file: ROMEntry) => {
-                      if (file.ino.toString() === selectedFile) {
-                        return (
-                          <Box key={file.ino} marginTop={2}>
-                            <div>
-                              <strong>Name:</strong> {file.name}
-                            </div>
-                            <div>
-                              <strong>Full Path:</strong> {file.fullPath}
-                            </div>
-                            <div>
-                              <strong>Size:</strong> {file.size} bytes
-                            </div>
-                          </Box>
-                        );
-                      }
-                      return null;
-                    })}
-              </div>
+              <ROMView
+                lastSelectedSystem={lastSelectedSystem}
+                selectedFile={selectedFile}
+                setSelectedFile={setSelectedFile}
+                setSelectedSystem={setSelectedSystem}
+              />
             )}
           </Box>
         </Box>

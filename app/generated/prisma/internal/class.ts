@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.2.0",
-  "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Rom {\n  id         Int       @id @default(autoincrement())\n  ino        Int       @unique // filesystem inode number\n  name       String?\n  parentPath String\n  fullPath   String    @unique\n  size       Int? // bytes\n  system     String? // e.g., \"Nintendo DS\", \"PlayStation\", etc.\n  metadata   Metadata? @relation(\"RomMetadata\")\n}\n\nmodel Metadata {\n  id    Int @id @default(autoincrement())\n  rom   Rom @relation(\"RomMetadata\", fields: [romId], references: [id], onDelete: Cascade)\n  romId Int @unique\n\n  title          String?\n  description    String?  @db.Text\n  year           Int?\n  genres         String[] // or Json / separate table if many-to-many\n  coverUrl       String? // main box art / thumbnail\n  screenshotUrls String[] // or Json\n  trailerUrl     String?\n  developer      String?\n  publisher      String?\n  region         String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Rom {\n  id         Int       @id @default(autoincrement())\n  ino        Int       @unique // filesystem inode number\n  name       String?\n  parentPath String\n  fullPath   String    @unique\n  size       BigInt? // bytes\n  system     String? // e.g., \"Nintendo DS\", \"PlayStation\", etc.\n  extension  String? // file extension, e.g., \"nds\", \"iso\", etc.\n  metadata   Metadata? @relation(\"RomMetadata\")\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Metadata {\n  id    Int @id @default(autoincrement())\n  rom   Rom @relation(\"RomMetadata\", fields: [romId], references: [id], onDelete: Cascade)\n  romId Int @unique\n\n  gameId     String?\n  systemId   String?\n  systemName String?\n\n  title       String?\n  description String? @db.Text\n  year        String?\n  developer   String?\n  publisher   String?\n  media       Json? // JSON array of media objects\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Rom\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ino\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"system\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"object\",\"type\":\"Metadata\",\"relationName\":\"RomMetadata\"}],\"dbName\":null},\"Metadata\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"rom\",\"kind\":\"object\",\"type\":\"Rom\",\"relationName\":\"RomMetadata\"},{\"name\":\"romId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"genres\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coverUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"screenshotUrls\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"trailerUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"developer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publisher\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"region\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Rom\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ino\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"system\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"extension\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"object\",\"type\":\"Metadata\",\"relationName\":\"RomMetadata\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Metadata\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"rom\",\"kind\":\"object\",\"type\":\"Rom\",\"relationName\":\"RomMetadata\"},{\"name\":\"romId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gameId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"systemId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"systemName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"developer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publisher\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"media\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 

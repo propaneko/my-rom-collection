@@ -9,31 +9,35 @@ datasource db {
 
 model Rom {
   id         Int       @id @default(autoincrement())
-  ino        Int       @unique   // filesystem inode number
-  name       String?
+  ino        Int       @unique // filesystem inode number
+  name       String
   parentPath String
   fullPath   String    @unique
-  size       Int?      // bytes
-  system     String?   // e.g., "Nintendo DS", "PlayStation", etc.
+  size       BigInt? // bytes
+  system     String
+  extension  String? // file extension, e.g., "nds", "iso", etc.
   metadata   Metadata? @relation("RomMetadata")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Metadata {
-  id          Int     @id @default(autoincrement())
-  rom         Rom     @relation("RomMetadata", fields: [romId], references: [id], onDelete: Cascade)
-  romId       Int     @unique
+  id    Int @id @default(autoincrement())
+  rom   Rom @relation("RomMetadata", fields: [romId], references: [id], onDelete: Cascade)
+  romId Int @unique
+
+  gameId     String?
+  systemId   String?
+  systemName String?
 
   title       String?
-  description String?   @db.Text
-  year        Int?
-  genres      String[]  // or Json / separate table if many-to-many
-  coverUrl    String?   // main box art / thumbnail
-  screenshotUrls String[] // or Json
-  trailerUrl  String?
+  description String? @db.Text
+  year        String?
   developer   String?
   publisher   String?
-  region      String?
+  media       Json? // JSON array of media objects
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,6 +1,7 @@
-import { ROMEntry } from "@/app/api/roms/helpers/getAllROMS";
+import { ROMEntry } from "@/app/api/roms/get-local-roms/helpers/getAllROMS";
 import { useGetRomsQuery } from "@/lib/services/roms";
 import { SimpleTreeView, TreeItem, TreeViewItemId } from "@mui/x-tree-view";
+import { sortBy } from "lodash";
 import { SyntheticEvent } from "react";
 
 export const ROMTreeView = ({
@@ -12,12 +13,14 @@ export const ROMTreeView = ({
     isSelected: boolean,
   ) => void;
 }) => {
-  const { data: romData } = useGetRomsQuery("");
+  const { data: romData, isSuccess } = useGetRomsQuery("");
+
+  const sortedRomData = sortBy(Object.keys(romData.result), (directory) => directory)
 
   return (
     <SimpleTreeView onItemSelectionToggle={handleItemSelectionToggle}>
-      {romData &&
-        Object.keys(romData.result).map((directory) => (
+      {isSuccess &&
+        sortedRomData.map((directory) => (
           <TreeItem
             key={directory}
             itemId={`${directory}-system`}

@@ -35,7 +35,7 @@ export type RomAvgAggregateOutputType = {
 export type RomSumAggregateOutputType = {
   id: number | null
   ino: number | null
-  size: number | null
+  size: bigint | null
 }
 
 export type RomMinAggregateOutputType = {
@@ -44,8 +44,11 @@ export type RomMinAggregateOutputType = {
   name: string | null
   parentPath: string | null
   fullPath: string | null
-  size: number | null
+  size: bigint | null
   system: string | null
+  extension: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RomMaxAggregateOutputType = {
@@ -54,8 +57,11 @@ export type RomMaxAggregateOutputType = {
   name: string | null
   parentPath: string | null
   fullPath: string | null
-  size: number | null
+  size: bigint | null
   system: string | null
+  extension: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RomCountAggregateOutputType = {
@@ -66,6 +72,9 @@ export type RomCountAggregateOutputType = {
   fullPath: number
   size: number
   system: number
+  extension: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -90,6 +99,9 @@ export type RomMinAggregateInputType = {
   fullPath?: true
   size?: true
   system?: true
+  extension?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RomMaxAggregateInputType = {
@@ -100,6 +112,9 @@ export type RomMaxAggregateInputType = {
   fullPath?: true
   size?: true
   system?: true
+  extension?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RomCountAggregateInputType = {
@@ -110,6 +125,9 @@ export type RomCountAggregateInputType = {
   fullPath?: true
   size?: true
   system?: true
+  extension?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -205,8 +223,11 @@ export type RomGroupByOutputType = {
   name: string | null
   parentPath: string
   fullPath: string
-  size: number | null
+  size: bigint | null
   system: string | null
+  extension: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: RomCountAggregateOutputType | null
   _avg: RomAvgAggregateOutputType | null
   _sum: RomSumAggregateOutputType | null
@@ -238,8 +259,11 @@ export type RomWhereInput = {
   name?: Prisma.StringNullableFilter<"Rom"> | string | null
   parentPath?: Prisma.StringFilter<"Rom"> | string
   fullPath?: Prisma.StringFilter<"Rom"> | string
-  size?: Prisma.IntNullableFilter<"Rom"> | number | null
+  size?: Prisma.BigIntNullableFilter<"Rom"> | bigint | number | null
   system?: Prisma.StringNullableFilter<"Rom"> | string | null
+  extension?: Prisma.StringNullableFilter<"Rom"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Rom"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rom"> | Date | string
   metadata?: Prisma.XOR<Prisma.MetadataNullableScalarRelationFilter, Prisma.MetadataWhereInput> | null
 }
 
@@ -251,6 +275,9 @@ export type RomOrderByWithRelationInput = {
   fullPath?: Prisma.SortOrder
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   system?: Prisma.SortOrderInput | Prisma.SortOrder
+  extension?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   metadata?: Prisma.MetadataOrderByWithRelationInput
 }
 
@@ -263,8 +290,11 @@ export type RomWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.RomWhereInput | Prisma.RomWhereInput[]
   name?: Prisma.StringNullableFilter<"Rom"> | string | null
   parentPath?: Prisma.StringFilter<"Rom"> | string
-  size?: Prisma.IntNullableFilter<"Rom"> | number | null
+  size?: Prisma.BigIntNullableFilter<"Rom"> | bigint | number | null
   system?: Prisma.StringNullableFilter<"Rom"> | string | null
+  extension?: Prisma.StringNullableFilter<"Rom"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Rom"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rom"> | Date | string
   metadata?: Prisma.XOR<Prisma.MetadataNullableScalarRelationFilter, Prisma.MetadataWhereInput> | null
 }, "id" | "ino" | "fullPath">
 
@@ -276,6 +306,9 @@ export type RomOrderByWithAggregationInput = {
   fullPath?: Prisma.SortOrder
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   system?: Prisma.SortOrderInput | Prisma.SortOrder
+  extension?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.RomCountOrderByAggregateInput
   _avg?: Prisma.RomAvgOrderByAggregateInput
   _max?: Prisma.RomMaxOrderByAggregateInput
@@ -292,8 +325,11 @@ export type RomScalarWhereWithAggregatesInput = {
   name?: Prisma.StringNullableWithAggregatesFilter<"Rom"> | string | null
   parentPath?: Prisma.StringWithAggregatesFilter<"Rom"> | string
   fullPath?: Prisma.StringWithAggregatesFilter<"Rom"> | string
-  size?: Prisma.IntNullableWithAggregatesFilter<"Rom"> | number | null
+  size?: Prisma.BigIntNullableWithAggregatesFilter<"Rom"> | bigint | number | null
   system?: Prisma.StringNullableWithAggregatesFilter<"Rom"> | string | null
+  extension?: Prisma.StringNullableWithAggregatesFilter<"Rom"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Rom"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Rom"> | Date | string
 }
 
 export type RomCreateInput = {
@@ -301,8 +337,11 @@ export type RomCreateInput = {
   name?: string | null
   parentPath: string
   fullPath: string
-  size?: number | null
+  size?: bigint | number | null
   system?: string | null
+  extension?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   metadata?: Prisma.MetadataCreateNestedOneWithoutRomInput
 }
 
@@ -312,8 +351,11 @@ export type RomUncheckedCreateInput = {
   name?: string | null
   parentPath: string
   fullPath: string
-  size?: number | null
+  size?: bigint | number | null
   system?: string | null
+  extension?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   metadata?: Prisma.MetadataUncheckedCreateNestedOneWithoutRomInput
 }
 
@@ -322,8 +364,11 @@ export type RomUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.MetadataUpdateOneWithoutRomNestedInput
 }
 
@@ -333,8 +378,11 @@ export type RomUncheckedUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.MetadataUncheckedUpdateOneWithoutRomNestedInput
 }
 
@@ -344,8 +392,11 @@ export type RomCreateManyInput = {
   name?: string | null
   parentPath: string
   fullPath: string
-  size?: number | null
+  size?: bigint | number | null
   system?: string | null
+  extension?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RomUpdateManyMutationInput = {
@@ -353,8 +404,11 @@ export type RomUpdateManyMutationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RomUncheckedUpdateManyInput = {
@@ -363,8 +417,11 @@ export type RomUncheckedUpdateManyInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RomCountOrderByAggregateInput = {
@@ -375,6 +432,9 @@ export type RomCountOrderByAggregateInput = {
   fullPath?: Prisma.SortOrder
   size?: Prisma.SortOrder
   system?: Prisma.SortOrder
+  extension?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RomAvgOrderByAggregateInput = {
@@ -391,6 +451,9 @@ export type RomMaxOrderByAggregateInput = {
   fullPath?: Prisma.SortOrder
   size?: Prisma.SortOrder
   system?: Prisma.SortOrder
+  extension?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RomMinOrderByAggregateInput = {
@@ -401,6 +464,9 @@ export type RomMinOrderByAggregateInput = {
   fullPath?: Prisma.SortOrder
   size?: Prisma.SortOrder
   system?: Prisma.SortOrder
+  extension?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RomSumOrderByAggregateInput = {
@@ -430,12 +496,16 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type NullableBigIntFieldUpdateOperationsInput = {
+  set?: bigint | number | null
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type RomCreateNestedOneWithoutMetadataInput = {
@@ -457,8 +527,11 @@ export type RomCreateWithoutMetadataInput = {
   name?: string | null
   parentPath: string
   fullPath: string
-  size?: number | null
+  size?: bigint | number | null
   system?: string | null
+  extension?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RomUncheckedCreateWithoutMetadataInput = {
@@ -467,8 +540,11 @@ export type RomUncheckedCreateWithoutMetadataInput = {
   name?: string | null
   parentPath: string
   fullPath: string
-  size?: number | null
+  size?: bigint | number | null
   system?: string | null
+  extension?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RomCreateOrConnectWithoutMetadataInput = {
@@ -492,8 +568,11 @@ export type RomUpdateWithoutMetadataInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RomUncheckedUpdateWithoutMetadataInput = {
@@ -502,8 +581,11 @@ export type RomUncheckedUpdateWithoutMetadataInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentPath?: Prisma.StringFieldUpdateOperationsInput | string
   fullPath?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  size?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   system?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extension?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -516,6 +598,9 @@ export type RomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   fullPath?: boolean
   size?: boolean
   system?: boolean
+  extension?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   metadata?: boolean | Prisma.Rom$metadataArgs<ExtArgs>
 }, ExtArgs["result"]["rom"]>
 
@@ -527,6 +612,9 @@ export type RomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   fullPath?: boolean
   size?: boolean
   system?: boolean
+  extension?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["rom"]>
 
 export type RomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,6 +625,9 @@ export type RomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   fullPath?: boolean
   size?: boolean
   system?: boolean
+  extension?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["rom"]>
 
 export type RomSelectScalar = {
@@ -547,9 +638,12 @@ export type RomSelectScalar = {
   fullPath?: boolean
   size?: boolean
   system?: boolean
+  extension?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type RomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ino" | "name" | "parentPath" | "fullPath" | "size" | "system", ExtArgs["result"]["rom"]>
+export type RomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ino" | "name" | "parentPath" | "fullPath" | "size" | "system" | "extension" | "createdAt" | "updatedAt", ExtArgs["result"]["rom"]>
 export type RomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   metadata?: boolean | Prisma.Rom$metadataArgs<ExtArgs>
 }
@@ -567,8 +661,11 @@ export type $RomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     name: string | null
     parentPath: string
     fullPath: string
-    size: number | null
+    size: bigint | null
     system: string | null
+    extension: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["rom"]>
   composites: {}
 }
@@ -998,8 +1095,11 @@ export interface RomFieldRefs {
   readonly name: Prisma.FieldRef<"Rom", 'String'>
   readonly parentPath: Prisma.FieldRef<"Rom", 'String'>
   readonly fullPath: Prisma.FieldRef<"Rom", 'String'>
-  readonly size: Prisma.FieldRef<"Rom", 'Int'>
+  readonly size: Prisma.FieldRef<"Rom", 'BigInt'>
   readonly system: Prisma.FieldRef<"Rom", 'String'>
+  readonly extension: Prisma.FieldRef<"Rom", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Rom", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Rom", 'DateTime'>
 }
     
 

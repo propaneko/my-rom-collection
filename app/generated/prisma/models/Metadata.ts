@@ -29,26 +29,24 @@ export type AggregateMetadata = {
 export type MetadataAvgAggregateOutputType = {
   id: number | null
   romId: number | null
-  year: number | null
 }
 
 export type MetadataSumAggregateOutputType = {
   id: number | null
   romId: number | null
-  year: number | null
 }
 
 export type MetadataMinAggregateOutputType = {
   id: number | null
   romId: number | null
+  gameId: string | null
+  systemId: string | null
+  systemName: string | null
   title: string | null
   description: string | null
-  year: number | null
-  coverUrl: string | null
-  trailerUrl: string | null
+  year: string | null
   developer: string | null
   publisher: string | null
-  region: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,14 +54,14 @@ export type MetadataMinAggregateOutputType = {
 export type MetadataMaxAggregateOutputType = {
   id: number | null
   romId: number | null
+  gameId: string | null
+  systemId: string | null
+  systemName: string | null
   title: string | null
   description: string | null
-  year: number | null
-  coverUrl: string | null
-  trailerUrl: string | null
+  year: string | null
   developer: string | null
   publisher: string | null
-  region: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,16 +69,15 @@ export type MetadataMaxAggregateOutputType = {
 export type MetadataCountAggregateOutputType = {
   id: number
   romId: number
+  gameId: number
+  systemId: number
+  systemName: number
   title: number
   description: number
   year: number
-  genres: number
-  coverUrl: number
-  screenshotUrls: number
-  trailerUrl: number
   developer: number
   publisher: number
-  region: number
+  media: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -90,26 +87,24 @@ export type MetadataCountAggregateOutputType = {
 export type MetadataAvgAggregateInputType = {
   id?: true
   romId?: true
-  year?: true
 }
 
 export type MetadataSumAggregateInputType = {
   id?: true
   romId?: true
-  year?: true
 }
 
 export type MetadataMinAggregateInputType = {
   id?: true
   romId?: true
+  gameId?: true
+  systemId?: true
+  systemName?: true
   title?: true
   description?: true
   year?: true
-  coverUrl?: true
-  trailerUrl?: true
   developer?: true
   publisher?: true
-  region?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -117,14 +112,14 @@ export type MetadataMinAggregateInputType = {
 export type MetadataMaxAggregateInputType = {
   id?: true
   romId?: true
+  gameId?: true
+  systemId?: true
+  systemName?: true
   title?: true
   description?: true
   year?: true
-  coverUrl?: true
-  trailerUrl?: true
   developer?: true
   publisher?: true
-  region?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,16 +127,15 @@ export type MetadataMaxAggregateInputType = {
 export type MetadataCountAggregateInputType = {
   id?: true
   romId?: true
+  gameId?: true
+  systemId?: true
+  systemName?: true
   title?: true
   description?: true
   year?: true
-  genres?: true
-  coverUrl?: true
-  screenshotUrls?: true
-  trailerUrl?: true
   developer?: true
   publisher?: true
-  region?: true
+  media?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -236,16 +230,15 @@ export type MetadataGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type MetadataGroupByOutputType = {
   id: number
   romId: number
+  gameId: string | null
+  systemId: string | null
+  systemName: string | null
   title: string | null
   description: string | null
-  year: number | null
-  genres: string[]
-  coverUrl: string | null
-  screenshotUrls: string[]
-  trailerUrl: string | null
+  year: string | null
   developer: string | null
   publisher: string | null
-  region: string | null
+  media: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: MetadataCountAggregateOutputType | null
@@ -276,16 +269,15 @@ export type MetadataWhereInput = {
   NOT?: Prisma.MetadataWhereInput | Prisma.MetadataWhereInput[]
   id?: Prisma.IntFilter<"Metadata"> | number
   romId?: Prisma.IntFilter<"Metadata"> | number
+  gameId?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  systemId?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  systemName?: Prisma.StringNullableFilter<"Metadata"> | string | null
   title?: Prisma.StringNullableFilter<"Metadata"> | string | null
   description?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  year?: Prisma.IntNullableFilter<"Metadata"> | number | null
-  genres?: Prisma.StringNullableListFilter<"Metadata">
-  coverUrl?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  screenshotUrls?: Prisma.StringNullableListFilter<"Metadata">
-  trailerUrl?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  year?: Prisma.StringNullableFilter<"Metadata"> | string | null
   developer?: Prisma.StringNullableFilter<"Metadata"> | string | null
   publisher?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  region?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  media?: Prisma.JsonNullableFilter<"Metadata">
   createdAt?: Prisma.DateTimeFilter<"Metadata"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Metadata"> | Date | string
   rom?: Prisma.XOR<Prisma.RomScalarRelationFilter, Prisma.RomWhereInput>
@@ -294,16 +286,15 @@ export type MetadataWhereInput = {
 export type MetadataOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
+  gameId?: Prisma.SortOrderInput | Prisma.SortOrder
+  systemId?: Prisma.SortOrderInput | Prisma.SortOrder
+  systemName?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   year?: Prisma.SortOrderInput | Prisma.SortOrder
-  genres?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  screenshotUrls?: Prisma.SortOrder
-  trailerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   developer?: Prisma.SortOrderInput | Prisma.SortOrder
   publisher?: Prisma.SortOrderInput | Prisma.SortOrder
-  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  media?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   rom?: Prisma.RomOrderByWithRelationInput
@@ -315,16 +306,15 @@ export type MetadataWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.MetadataWhereInput | Prisma.MetadataWhereInput[]
   OR?: Prisma.MetadataWhereInput[]
   NOT?: Prisma.MetadataWhereInput | Prisma.MetadataWhereInput[]
+  gameId?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  systemId?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  systemName?: Prisma.StringNullableFilter<"Metadata"> | string | null
   title?: Prisma.StringNullableFilter<"Metadata"> | string | null
   description?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  year?: Prisma.IntNullableFilter<"Metadata"> | number | null
-  genres?: Prisma.StringNullableListFilter<"Metadata">
-  coverUrl?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  screenshotUrls?: Prisma.StringNullableListFilter<"Metadata">
-  trailerUrl?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  year?: Prisma.StringNullableFilter<"Metadata"> | string | null
   developer?: Prisma.StringNullableFilter<"Metadata"> | string | null
   publisher?: Prisma.StringNullableFilter<"Metadata"> | string | null
-  region?: Prisma.StringNullableFilter<"Metadata"> | string | null
+  media?: Prisma.JsonNullableFilter<"Metadata">
   createdAt?: Prisma.DateTimeFilter<"Metadata"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Metadata"> | Date | string
   rom?: Prisma.XOR<Prisma.RomScalarRelationFilter, Prisma.RomWhereInput>
@@ -333,16 +323,15 @@ export type MetadataWhereUniqueInput = Prisma.AtLeast<{
 export type MetadataOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
+  gameId?: Prisma.SortOrderInput | Prisma.SortOrder
+  systemId?: Prisma.SortOrderInput | Prisma.SortOrder
+  systemName?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   year?: Prisma.SortOrderInput | Prisma.SortOrder
-  genres?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  screenshotUrls?: Prisma.SortOrder
-  trailerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   developer?: Prisma.SortOrderInput | Prisma.SortOrder
   publisher?: Prisma.SortOrderInput | Prisma.SortOrder
-  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  media?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MetadataCountOrderByAggregateInput
@@ -358,31 +347,29 @@ export type MetadataScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MetadataScalarWhereWithAggregatesInput | Prisma.MetadataScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Metadata"> | number
   romId?: Prisma.IntWithAggregatesFilter<"Metadata"> | number
+  gameId?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
+  systemId?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
+  systemName?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
   title?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
-  year?: Prisma.IntNullableWithAggregatesFilter<"Metadata"> | number | null
-  genres?: Prisma.StringNullableListFilter<"Metadata">
-  coverUrl?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
-  screenshotUrls?: Prisma.StringNullableListFilter<"Metadata">
-  trailerUrl?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
+  year?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
   developer?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
   publisher?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
-  region?: Prisma.StringNullableWithAggregatesFilter<"Metadata"> | string | null
+  media?: Prisma.JsonNullableWithAggregatesFilter<"Metadata">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Metadata"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Metadata"> | Date | string
 }
 
 export type MetadataCreateInput = {
+  gameId?: string | null
+  systemId?: string | null
+  systemName?: string | null
   title?: string | null
   description?: string | null
-  year?: number | null
-  genres?: Prisma.MetadataCreategenresInput | string[]
-  coverUrl?: string | null
-  screenshotUrls?: Prisma.MetadataCreatescreenshotUrlsInput | string[]
-  trailerUrl?: string | null
+  year?: string | null
   developer?: string | null
   publisher?: string | null
-  region?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   rom: Prisma.RomCreateNestedOneWithoutMetadataInput
@@ -391,31 +378,29 @@ export type MetadataCreateInput = {
 export type MetadataUncheckedCreateInput = {
   id?: number
   romId: number
+  gameId?: string | null
+  systemId?: string | null
+  systemName?: string | null
   title?: string | null
   description?: string | null
-  year?: number | null
-  genres?: Prisma.MetadataCreategenresInput | string[]
-  coverUrl?: string | null
-  screenshotUrls?: Prisma.MetadataCreatescreenshotUrlsInput | string[]
-  trailerUrl?: string | null
+  year?: string | null
   developer?: string | null
   publisher?: string | null
-  region?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type MetadataUpdateInput = {
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rom?: Prisma.RomUpdateOneRequiredWithoutMetadataNestedInput
@@ -424,16 +409,15 @@ export type MetadataUpdateInput = {
 export type MetadataUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   romId?: Prisma.IntFieldUpdateOperationsInput | number
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -441,31 +425,29 @@ export type MetadataUncheckedUpdateInput = {
 export type MetadataCreateManyInput = {
   id?: number
   romId: number
+  gameId?: string | null
+  systemId?: string | null
+  systemName?: string | null
   title?: string | null
   description?: string | null
-  year?: number | null
-  genres?: Prisma.MetadataCreategenresInput | string[]
-  coverUrl?: string | null
-  screenshotUrls?: Prisma.MetadataCreatescreenshotUrlsInput | string[]
-  trailerUrl?: string | null
+  year?: string | null
   developer?: string | null
   publisher?: string | null
-  region?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type MetadataUpdateManyMutationInput = {
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -473,16 +455,15 @@ export type MetadataUpdateManyMutationInput = {
 export type MetadataUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   romId?: Prisma.IntFieldUpdateOperationsInput | number
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -492,27 +473,18 @@ export type MetadataNullableScalarRelationFilter = {
   isNot?: Prisma.MetadataWhereInput | null
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type MetadataCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
+  gameId?: Prisma.SortOrder
+  systemId?: Prisma.SortOrder
+  systemName?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   year?: Prisma.SortOrder
-  genres?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  screenshotUrls?: Prisma.SortOrder
-  trailerUrl?: Prisma.SortOrder
   developer?: Prisma.SortOrder
   publisher?: Prisma.SortOrder
-  region?: Prisma.SortOrder
+  media?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -520,20 +492,19 @@ export type MetadataCountOrderByAggregateInput = {
 export type MetadataAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
-  year?: Prisma.SortOrder
 }
 
 export type MetadataMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
+  gameId?: Prisma.SortOrder
+  systemId?: Prisma.SortOrder
+  systemName?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   year?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  trailerUrl?: Prisma.SortOrder
   developer?: Prisma.SortOrder
   publisher?: Prisma.SortOrder
-  region?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -541,14 +512,14 @@ export type MetadataMaxOrderByAggregateInput = {
 export type MetadataMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
+  gameId?: Prisma.SortOrder
+  systemId?: Prisma.SortOrder
+  systemName?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   year?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  trailerUrl?: Prisma.SortOrder
   developer?: Prisma.SortOrder
   publisher?: Prisma.SortOrder
-  region?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -556,7 +527,6 @@ export type MetadataMinOrderByAggregateInput = {
 export type MetadataSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   romId?: Prisma.SortOrder
-  year?: Prisma.SortOrder
 }
 
 export type MetadataCreateNestedOneWithoutRomInput = {
@@ -591,55 +561,31 @@ export type MetadataUncheckedUpdateOneWithoutRomNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MetadataUpdateToOneWithWhereWithoutRomInput, Prisma.MetadataUpdateWithoutRomInput>, Prisma.MetadataUncheckedUpdateWithoutRomInput>
 }
 
-export type MetadataCreategenresInput = {
-  set: string[]
-}
-
-export type MetadataCreatescreenshotUrlsInput = {
-  set: string[]
-}
-
-export type MetadataUpdategenresInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type MetadataUpdatescreenshotUrlsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type MetadataCreateWithoutRomInput = {
+  gameId?: string | null
+  systemId?: string | null
+  systemName?: string | null
   title?: string | null
   description?: string | null
-  year?: number | null
-  genres?: Prisma.MetadataCreategenresInput | string[]
-  coverUrl?: string | null
-  screenshotUrls?: Prisma.MetadataCreatescreenshotUrlsInput | string[]
-  trailerUrl?: string | null
+  year?: string | null
   developer?: string | null
   publisher?: string | null
-  region?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type MetadataUncheckedCreateWithoutRomInput = {
   id?: number
+  gameId?: string | null
+  systemId?: string | null
+  systemName?: string | null
   title?: string | null
   description?: string | null
-  year?: number | null
-  genres?: Prisma.MetadataCreategenresInput | string[]
-  coverUrl?: string | null
-  screenshotUrls?: Prisma.MetadataCreatescreenshotUrlsInput | string[]
-  trailerUrl?: string | null
+  year?: string | null
   developer?: string | null
   publisher?: string | null
-  region?: string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -661,32 +607,30 @@ export type MetadataUpdateToOneWithWhereWithoutRomInput = {
 }
 
 export type MetadataUpdateWithoutRomInput = {
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MetadataUncheckedUpdateWithoutRomInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  genres?: Prisma.MetadataUpdategenresInput | string[]
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screenshotUrls?: Prisma.MetadataUpdatescreenshotUrlsInput | string[]
-  trailerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   developer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  media?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -696,16 +640,15 @@ export type MetadataUncheckedUpdateWithoutRomInput = {
 export type MetadataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   romId?: boolean
+  gameId?: boolean
+  systemId?: boolean
+  systemName?: boolean
   title?: boolean
   description?: boolean
   year?: boolean
-  genres?: boolean
-  coverUrl?: boolean
-  screenshotUrls?: boolean
-  trailerUrl?: boolean
   developer?: boolean
   publisher?: boolean
-  region?: boolean
+  media?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   rom?: boolean | Prisma.RomDefaultArgs<ExtArgs>
@@ -714,16 +657,15 @@ export type MetadataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type MetadataSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   romId?: boolean
+  gameId?: boolean
+  systemId?: boolean
+  systemName?: boolean
   title?: boolean
   description?: boolean
   year?: boolean
-  genres?: boolean
-  coverUrl?: boolean
-  screenshotUrls?: boolean
-  trailerUrl?: boolean
   developer?: boolean
   publisher?: boolean
-  region?: boolean
+  media?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   rom?: boolean | Prisma.RomDefaultArgs<ExtArgs>
@@ -732,16 +674,15 @@ export type MetadataSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type MetadataSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   romId?: boolean
+  gameId?: boolean
+  systemId?: boolean
+  systemName?: boolean
   title?: boolean
   description?: boolean
   year?: boolean
-  genres?: boolean
-  coverUrl?: boolean
-  screenshotUrls?: boolean
-  trailerUrl?: boolean
   developer?: boolean
   publisher?: boolean
-  region?: boolean
+  media?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   rom?: boolean | Prisma.RomDefaultArgs<ExtArgs>
@@ -750,21 +691,20 @@ export type MetadataSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type MetadataSelectScalar = {
   id?: boolean
   romId?: boolean
+  gameId?: boolean
+  systemId?: boolean
+  systemName?: boolean
   title?: boolean
   description?: boolean
   year?: boolean
-  genres?: boolean
-  coverUrl?: boolean
-  screenshotUrls?: boolean
-  trailerUrl?: boolean
   developer?: boolean
   publisher?: boolean
-  region?: boolean
+  media?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MetadataOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "romId" | "title" | "description" | "year" | "genres" | "coverUrl" | "screenshotUrls" | "trailerUrl" | "developer" | "publisher" | "region" | "createdAt" | "updatedAt", ExtArgs["result"]["metadata"]>
+export type MetadataOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "romId" | "gameId" | "systemId" | "systemName" | "title" | "description" | "year" | "developer" | "publisher" | "media" | "createdAt" | "updatedAt", ExtArgs["result"]["metadata"]>
 export type MetadataInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rom?: boolean | Prisma.RomDefaultArgs<ExtArgs>
 }
@@ -783,16 +723,15 @@ export type $MetadataPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     romId: number
+    gameId: string | null
+    systemId: string | null
+    systemName: string | null
     title: string | null
     description: string | null
-    year: number | null
-    genres: string[]
-    coverUrl: string | null
-    screenshotUrls: string[]
-    trailerUrl: string | null
+    year: string | null
     developer: string | null
     publisher: string | null
-    region: string | null
+    media: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["metadata"]>
@@ -1221,16 +1160,15 @@ export interface Prisma__MetadataClient<T, Null = never, ExtArgs extends runtime
 export interface MetadataFieldRefs {
   readonly id: Prisma.FieldRef<"Metadata", 'Int'>
   readonly romId: Prisma.FieldRef<"Metadata", 'Int'>
+  readonly gameId: Prisma.FieldRef<"Metadata", 'String'>
+  readonly systemId: Prisma.FieldRef<"Metadata", 'String'>
+  readonly systemName: Prisma.FieldRef<"Metadata", 'String'>
   readonly title: Prisma.FieldRef<"Metadata", 'String'>
   readonly description: Prisma.FieldRef<"Metadata", 'String'>
-  readonly year: Prisma.FieldRef<"Metadata", 'Int'>
-  readonly genres: Prisma.FieldRef<"Metadata", 'String[]'>
-  readonly coverUrl: Prisma.FieldRef<"Metadata", 'String'>
-  readonly screenshotUrls: Prisma.FieldRef<"Metadata", 'String[]'>
-  readonly trailerUrl: Prisma.FieldRef<"Metadata", 'String'>
+  readonly year: Prisma.FieldRef<"Metadata", 'String'>
   readonly developer: Prisma.FieldRef<"Metadata", 'String'>
   readonly publisher: Prisma.FieldRef<"Metadata", 'String'>
-  readonly region: Prisma.FieldRef<"Metadata", 'String'>
+  readonly media: Prisma.FieldRef<"Metadata", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Metadata", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Metadata", 'DateTime'>
 }

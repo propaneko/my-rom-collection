@@ -61,12 +61,12 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
@@ -78,7 +78,10 @@ export const RomScalarFieldEnum = {
   parentPath: 'parentPath',
   fullPath: 'fullPath',
   size: 'size',
-  system: 'system'
+  system: 'system',
+  extension: 'extension',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RomScalarFieldEnum = (typeof RomScalarFieldEnum)[keyof typeof RomScalarFieldEnum]
@@ -87,16 +90,15 @@ export type RomScalarFieldEnum = (typeof RomScalarFieldEnum)[keyof typeof RomSca
 export const MetadataScalarFieldEnum = {
   id: 'id',
   romId: 'romId',
+  gameId: 'gameId',
+  systemId: 'systemId',
+  systemName: 'systemName',
   title: 'title',
   description: 'description',
   year: 'year',
-  genres: 'genres',
-  coverUrl: 'coverUrl',
-  screenshotUrls: 'screenshotUrls',
-  trailerUrl: 'trailerUrl',
   developer: 'developer',
   publisher: 'publisher',
-  region: 'region',
+  media: 'media',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -110,6 +112,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -126,4 +136,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
