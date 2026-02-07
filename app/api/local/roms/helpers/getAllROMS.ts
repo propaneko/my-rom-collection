@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Media } from "../../types";
+import { Media } from "../types";
 
 export type ROMEntry = fs.Dirent &
   fs.Stats & {
@@ -11,6 +11,9 @@ export type ROMEntry = fs.Dirent &
       title?: string;
       description?: string;
       media?: Media[];
+      id: string;
+      systemId: string;
+      systemName?: string;
     };
   };
 

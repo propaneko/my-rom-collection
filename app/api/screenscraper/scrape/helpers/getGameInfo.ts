@@ -1,7 +1,8 @@
-import { find, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import { stringSimilarity } from "string-similarity-js";
 import { getSystems } from "./getSystems";
-import { Ssuser } from "../../types";
+import { Ssuser } from "@/app/api/local/roms/types";
+import { createDefaultUrl } from "../../helpers/createDefaultUrl";
 
 export interface Name {
   region: string;
@@ -44,24 +45,21 @@ function findClosest(inputText: string, data: Data[], minScore = 0.5) {
   return bestScore >= minScore ? bestJeu : null;
 }
 
-export const getGameInfo = async (romName: string, romSystem: string) => {
+const createFinalUrl = (romName: string, romSystem: string): string => {
+  const defaultUrl = createDefaultUrl("jeuRecherche.php")
   const systems = getSystems();
   const system = systems.find(
     (sys) => sys.name.toLowerCase() === romSystem.toLowerCase(),
   );
 
-  const urlParamsDev = process.env.SCREENSCRAPER_DEV_ID
-    ? `devid=${process.env.SCREENSCRAPER_DEV_ID}&devpassword=${process.env.SCREENSCRAPER_DEV_PASSWORD}`
-    : "";
-  const urlParamsUser = process.env.SCREENSCRAPER_USER_NAME
-    ? `ssid=${process.env.SCREENSCRAPER_USER_NAME}&sspassword=${process.env.SCREENSCRAPER_USER_PASSWORD}`
-    : "";
+  const urlParamSystem = system ? `systemeid=${system.id}` : "";
 
-  const urlParamSystem = system ? `&systemeid=${system.id}` : "";
-  const API_URL = "https://api.screenscraper.fr/api2/jeuRecherche.php";
+  return `${defaultUrl}&${urlParamSystem}&output=json&softname=zzz&recherche=${romName}`;
+};
 
-  const finalUrl = `${API_URL}?${urlParamsDev}&${urlParamsUser}&${urlParamSystem}&output=json&softname=zzz&recherche=${romName}`;
-
+export const getGameInfo = async (romName: string, romSystem: string) => {
+  const finalUrl = createFinalUrl(romName, romSystem);
+  
   const response = await fetch(finalUrl);
 
   if (!response.ok) {

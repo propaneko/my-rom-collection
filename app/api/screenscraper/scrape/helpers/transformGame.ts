@@ -1,5 +1,5 @@
+import { Media, Game, AllowedLangs } from "@/app/api/local/roms/types";
 import { omit } from "lodash";
-import type { AllowedLangs, Game, Media } from "../../types.js";
 
 const filterMedia = (media: Media[]) =>
   media.filter((m) => {

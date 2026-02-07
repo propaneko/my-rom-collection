@@ -1,42 +1,52 @@
 "use client";
-import { AppBar, Box, Button, LinearProgress } from "@mui/material";
-import { useState } from "react";
-import { find, pick, values } from "lodash";
-import { ROMEntry } from "./api/roms/get-local-roms/helpers/getAllROMS";
+import { Box, Divider, LinearProgress, Stack } from "@mui/material";
+import {  useState } from "react";
+import { find, values } from "lodash";
 import { useGetRomsQuery } from "@/lib/services/roms";
 import { ROMTreeView } from "@/components/ROMTreeView";
 import { ROMGridView } from "@/components/ROMGridView";
-import ScrapeModal from "@/components/ScrapeModal";
-import { Media } from "./api/roms/types";
-import NextImage from "next/image";
 import { ROMView } from "@/components/ROMView";
+import { GlassPaper } from "@/components/ui/GrayPaper";
+import { ROMEntry } from "./api/local/roms/helpers/getAllROMS";
+import ScreenscraperApiInfo from "@/components/ScreenscraperApiInfo";
+import { ScreenscraperModalScraper } from "@/components/ScreenscraperModalScraper";
+
+export type SelectionState = {
+  system: string | null; // The currently selected system (e.g., "NES", "Super Nintendo")
+  file: string | null; // The currently selected file ID (likely the ino property)
+  lastSystem: string | null; // Previously selected system
+};
 
 export default function Home() {
-  const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
-  const [lastSelectedSystem, setLastSelectedSystem] = useState<string | null>(
-    null,
-  );
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [selectionState, setSelectionState] = useState<SelectionState>({
+    system: "NES",
+    file: null,
+    lastSystem: null,
+  });
 
   const [open, setOpen] = useState(false);
 
-  const { data: romData, error, isLoading } = useGetRomsQuery("");
-  console.log(romData, error, isLoading);
 
-  const onSelectFile = (fileId: string, systemId: string) => {
-    setSelectedFile(fileId);
-    setLastSelectedSystem(systemId);
-    setSelectedSystem(null);
-  };
+  const { data: romData, error, isLoading } = useGetRomsQuery("");
 
   const onSelectSystem = (systemId: string) => {
-    setLastSelectedSystem(selectedSystem);
-    setSelectedSystem(systemId);
-    setSelectedFile(null);
+    setSelectionState((prev) => ({
+      system: systemId,
+      file: null,
+      lastSystem: prev.system || prev.lastSystem,
+    }));
+  };
+
+  const onSelectFile = (fileId: string, systemId: string) => {
+    setSelectionState(() => ({
+      system: null,
+      file: fileId,
+      lastSystem: systemId,
+    }));
   };
 
   const handleItemSelectionToggle = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     itemId: string,
     isSelected: boolean,
   ) => {
@@ -57,64 +67,41 @@ export default function Home() {
   }
 
   return (
-    <Box>
-      <ScrapeModal open={open} onClose={() => setOpen(false)} />
-      <AppBar
-        position="relative"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          px: 2,
-        }}
-      >
-        <h1
-          style={{
-            flex: 1,
-            flexGrow: 1,
-            fontWeight: "bold",
-          }}
-        >
-          My ROM Collection
-        </h1>
-        <Button
-          style={{
-            flexGrow: 1,
-            fontWeight: "bold",
-          }}
-          onClick={() => setOpen(true)}
-        >
-          Scrap games
-        </Button>
-      </AppBar>
-      {isLoading ? (
-        <LinearProgress />
-      ) : (
-        <Box display="flex" height="calc(100vh - 64px)" flexDirection="row">
-          <Box flex={1} padding={4} style={{ overflowY: "auto" }}>
-            <ROMTreeView
-              handleItemSelectionToggle={handleItemSelectionToggle}
-            />
+    <Box className="h-screen bg-linear-to-br from-indigo-900 to-purple-800 flex flex-col">
+        <Box className="flex flex-1 flex-row overflow-hidden">
+          <Box
+            style={{ height: "calc(100vh - 16px)" }}
+            className="flex-1 rounded-2xl backdrop-blur-lg border border-white/20 p-2 m-2 shadow-2xl"
+          >
+            <Stack divider={<Divider flexItem />} spacing={2}>
+              <GlassPaper className="text-center">
+                <h1 className="p-2.5">My ROM Collection</h1>
+              </GlassPaper>
+              <ScreenscraperApiInfo setOpen={setOpen} />
+              <GlassPaper>
+                <ROMTreeView
+                  handleItemSelectionToggle={handleItemSelectionToggle}
+                />
+              </GlassPaper>
+            </Stack>
           </Box>
-          <Box flex={3} padding={4} style={{ overflowY: "auto" }}>
-            {selectedSystem && (
+          <Box className="flex-4 rounded-2xl backdrop-blur-lg border border-white/20 p-2 m-2 shadow-2xl">
+            <ScreenscraperModalScraper open={open} onClose={() => setOpen(false)} />
+            {selectionState.system && (
               <ROMGridView
                 onSelectFile={onSelectFile}
-                selectedSystem={selectedSystem}
+                selectedSystem={selectionState.system}
               />
             )}
-            {selectedFile && (
+            {selectionState.file && (
               <ROMView
-                lastSelectedSystem={lastSelectedSystem}
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
-                setSelectedSystem={setSelectedSystem}
+                lastSelectedSystem={selectionState.lastSystem}
+                selectedFile={selectionState.file}
+                setSelectionState={setSelectionState}
               />
             )}
           </Box>
         </Box>
-      )}
     </Box>
   );
 }

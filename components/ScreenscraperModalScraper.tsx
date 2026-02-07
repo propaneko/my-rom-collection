@@ -15,15 +15,14 @@ import {
 } from "@mui/material";
 import { romsApi } from "@/lib/services/roms";
 import { useAppDispatch } from "@/lib/hooks";
-import { set } from "lodash";
-import { Ssuser } from "@/app/api/roms/types";
+import { Ssuser } from "@/app/api/local/roms/types";
 
 interface ScrapeModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
+export const ScreenscraperModalScraper = ({ open, onClose }: ScrapeModalProps) => {
   const dispatch = useAppDispatch();
   const [progress, setProgress] = useState({
     total: 0,
@@ -58,7 +57,7 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
 
     const startScraping = async () => {
       try {
-        const response = await fetch("/api/roms/scrape-metadata", {
+        const response = await fetch("/api/screenscraper/scrape", {
           method: "GET",
           signal: abortControllerRef.current?.signal,
         });
@@ -121,7 +120,6 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
             }
           }
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         if (err.name === "AbortError") {
           setIsCancelled(true);
@@ -130,14 +128,13 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
         }
       }
     };
+    
     startScraping();
 
     return () => {
       abortControllerRef.current?.abort();
     };
   }, [open, dispatch]);
-
-  console.log(progress);
 
   const percent =
     progress.total > 0
@@ -177,17 +174,26 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
       maxWidth="sm"
       fullWidth
       disableEscapeKeyDown={!isComplete && !errorMsg}
+      className=" backdrop-blur-lg  bg-white/10"
     >
-      <DialogTitle>Scraping Game Metadata</DialogTitle>
+      <DialogTitle className="bg-white/10 backdrop-blur-lg border-b border-white/20 rounded-t-2xl p-4">
+        Scraping Game Metadata
+      </DialogTitle>
 
-      <DialogContent dividers sx={{ minHeight: 180 }}>
+      <DialogContent
+        dividers
+        className="bg-white/10 backdrop-blur-lg border-b border-white/20 p-4"
+      >
         {errorMsg && (
           <Typography color="error" variant="body1" align="center" gutterBottom>
             {errorMsg}
           </Typography>
         )}{" "}
         {isCancelled ? (
-          <Alert severity="warning" sx={{ mt: 2 }}>
+          <Alert 
+            severity="warning" 
+            className="mt-2 bg-white/10 backdrop-blur-lg border border-white/20"
+          >
             Scraping was cancelled
           </Alert>
         ) : isComplete ? (
@@ -200,7 +206,7 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
             </Typography>
           </Box>
         ) : (
-          <Box sx={{ py: 2 }}>
+          <Box className="py-2">
             <Typography variant="body2" color="text.secondary" align="center">
               {progress.processed} / {progress.total} — {progress.left} left
             </Typography>
@@ -210,16 +216,25 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
                 variant="body2"
                 color="text.secondary"
                 align="center"
-                sx={{ mt: 1 }}
+                className="mt-1"
               >
                 Current: <strong>{progress.rom}</strong>
               </Typography>
             )}
-            <Box sx={{ display: "flex", alignItems: "center", mt: 3, mb: 1 }}>
-              <Box sx={{ width: "100%", mr: 1 }}>
-                <LinearProgress variant="determinate" value={percent} />
+            <Box className="flex items-center mt-3 mb-1">
+              <Box className="w-full mr-1">
+                <LinearProgress 
+                  variant="determinate" 
+                  value={percent} 
+                  className="bg-white/20"
+                  sx={{
+                    "& .MuiLinearProgress-bar": {
+                      backgroundColor: "#667eea",
+                    },
+                  }}
+                />
               </Box>
-              <Box sx={{ minWidth: 45 }}>
+              <Box className="min-w-[45px]">
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -230,34 +245,39 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
         )}
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions
+        className="bg-white/10 backdrop-blur-lg rounded-b-2xl p-4"
+      >
         {isComplete || isCancelled ? (
-          <Button onClick={onClose} variant="contained" color="primary">
+          <Button 
+            onClick={onClose} 
+            variant="contained" 
+            color="primary"
+            className="bg-white/20 backdrop-blur-lg border border-white/30 text-white hover:bg-white/30"
+          >
             Close
           </Button>
         ) : (
           <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-              px: 2,
-            }}
+            className="flex items-center justify-between w-full px-2"
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <CircularProgress size={20} sx={{ mr: 1 }} />
-              <Typography variant="body2">Working...</Typography>
+            <Box className="flex items-center">
+              <CircularProgress size={20} className="mr-1 text-white" />
+              <Typography variant="body2" className="text-white">Working...</Typography>
             </Box>
             {header && (
               <Box>
-                <Typography variant="body2">
+                <Typography variant="body2" className="text-white">
                   Api limit: {header?.maxrequestsperday} /{" "}
                   {header?.requeststoday}
                 </Typography>
               </Box>
             )}
-            <Button onClick={handleClose} color="inherit">
+            <Button 
+              onClick={handleClose} 
+              color="inherit"
+              className="text-white border border-white/30 hover:border-white/50"
+            >
               Cancel
             </Button>
           </Box>
@@ -265,4 +285,4 @@ export default function ScrapeModal({ open, onClose }: ScrapeModalProps) {
       </DialogActions>
     </Dialog>
   );
-}
+};
